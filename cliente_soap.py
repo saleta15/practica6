@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from suds.client import Client
+from tabulate import tabulate
 url = 'http://localhost:9014/HelloWorld?WSDL'
 client = Client(url)
 #print client
@@ -213,13 +214,20 @@ def ver_estudiantes():
     os.system('clear')
 
     estudiantes = client.service.verEstudiantes()
-    print "------------------------------------------------------------------------------------"
-    print "|Nombre           |Matricula     |Carrera       |Asignaturas                       |"
-    print "------------------------------------------------------------------------------------"
-   
 
-
-
+    rows = []
+    for estudiante in estudiantes:
+        row = []
+        row.append(estudiante.nombre)
+        row.append(estudiante.matricula)
+        asignaturas = ""
+        if(hasattr(estudiante,'asignaturas')):
+            for asignatura in estudiante.asignaturas:
+                asignaturas+= "\t" + asignatura.codigo + ": " + asignatura.nombre + ", "
+        row.append(asignaturas)
+        rows.append(row)
+    print tabulate(rows, headers=['Nombre', 'Matricula','Asignaturas'], tablefmt='orgtbl')
+    raw_input("pulsa una tecla para continuar...\n")
 
 while True:
     # Mostramos el menu
