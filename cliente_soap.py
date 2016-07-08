@@ -198,8 +198,28 @@ def consultar_estudiante():
 def borrar_estudiante():
     os.system('clear')
 
+    while True:
+        matricula = raw_input("Digite la clave de la matricula del estudiante a borrar\n")
+        mensaje = client.service.borrarEstudiante(matricula)
+        if mensaje == "ok":
+            break
+        os.system('clear')
+        print "ESTE ESTUDIANTE NO EXISTE"
+        print "Porfavor vuelva a digitar los datos..."
+    print "Estudiante con matricula '" + matricula + "' borrado con exito!"
+    raw_input("pulsa una tecla para continuar...\n")
+
 def ver_estudiantes():
     os.system('clear')
+
+    estudiantes = client.service.verEstudiantes()
+    print "------------------------------------------------------------------------------------"
+    print "|Nombre           |Matricula     |Carrera       |Asignaturas                       |"
+    print "------------------------------------------------------------------------------------"
+   
+
+
+
 
 while True:
     # Mostramos el menu
@@ -216,6 +236,10 @@ while True:
         menuEdicion()
     elif opcionMenu == "4":
         consultar_estudiante()
+    elif opcionMenu == "5":
+        borrar_estudiante()
+    elif opcionMenu == "6":
+        ver_estudiantes()
     elif opcionMenu == "9":
         break
     else:
